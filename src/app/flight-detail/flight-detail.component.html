@@ -1,0 +1,20 @@
+<h1>{{selectedFlight.flightId}}</h1>
+<div>
+    <div>
+        <p>{{selectedFlight.from.code}}</p>
+        <p>{{selectedFlight.from.name}}</p>
+    </div>
+    <div>
+        <h1><mat-icon aria-hidden="false" aria-label="Airplane Logo" fontIcon="{{getIcon()}}"></mat-icon></h1>
+    </div>
+    <div>
+        <p>{{selectedFlight.to.code}}</p>
+        <p>{{selectedFlight.to.name}}</p>
+    </div>
+</div>
+<app-progress-bar [progress]="getProgress()"></app-progress-bar>
+
+<p>Current Speed: {{currentFlight.knots | number:'1.0-2'}} kn</p>
+<p>Current Altitude: {{currentFlight.altitude | number:'1.0-2'}} ft</p>
+
+<button mat-raised-button (click)="goBack()" color="accent">Back</button>

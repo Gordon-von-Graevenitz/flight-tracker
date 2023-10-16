@@ -1,0 +1,60 @@
+<div *ngIf="showTable">
+  <div>
+    <p>Taking Off: {{takeOff}}</p>
+    <p>In Flight: {{inFlight}}</p>
+    <p>Landing: {{landing}}</p>
+  </div>
+<mat-form-field>
+    <mat-label>Find Flight</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Find Flight" #input>
+  </mat-form-field>
+  
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  
+    <ng-container matColumnDef="icon">
+      <th mat-header-cell *matHeaderCellDef> - </th>
+      <td mat-cell *matCellDef="let item"> <mat-icon aria-hidden="false" aria-label="Airplane Logo" fontIcon="airplanemode_inactive"></mat-icon> </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="flightId">
+      <th mat-header-cell *matHeaderCellDef> Flight # </th>
+      <td mat-cell *matCellDef="let item"> {{item.flightId}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="to">
+      <th mat-header-cell *matHeaderCellDef> Destination </th>
+      <!-- Love the use of cat breeds here!! -->
+      <td mat-cell *matCellDef="let item">{{item.to.name}} ({{item.to.code}}) </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="arrivalTime">
+      <th mat-header-cell *matHeaderCellDef> Estimated Arrival </th>
+      <td mat-cell *matCellDef="let item"> {{item.arrivalTime  | date:'shortTime'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="accEst">
+      <th mat-header-cell *matHeaderCellDef> Accurate Estimate </th>
+      <td mat-cell *matCellDef="let item"> {{item.accEst}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="gate">
+      <th mat-header-cell *matHeaderCellDef> Gate </th>
+      <td mat-cell *matCellDef="let item"> {{item.gate}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="percentComplete">
+      <th mat-header-cell *matHeaderCellDef> - </th>
+      <td mat-cell *matCellDef="let item"> {{getPercent(item)}} %  </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openFlightDetail(row)"></tr>
+  
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+    </tr>
+  </table>
+
+  </div>
+  <app-flight-detail *ngIf="showDetail"  [selectedFlight]="selectedItem" (back)="toggleDetail($event)"></app-flight-detail>
+  <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="10" aria-label="Select page"></mat-paginator> -->
